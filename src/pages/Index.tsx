@@ -4,7 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { 
   Shield, 
@@ -20,7 +20,11 @@ import {
   Globe,
   Lock,
   Database,
-  Bot
+  Bot,
+  ArrowRight,
+  Star,
+  TrendingUp,
+  Target
 } from "lucide-react";
 
 const Index = () => {
@@ -29,14 +33,19 @@ const Index = () => {
     email: "",
     message: ""
   });
+  const [isVisible, setIsVisible] = useState(false);
   const { toast } = useToast();
+
+  useEffect(() => {
+    setIsVisible(true);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // In a real implementation, you'd send this to a backend
     toast({
-      title: "Message sent!",
-      description: "Thank you for your message. Chester will get back to you soon.",
+      title: "Message sent successfully!",
+      description: "Thank you for your message. Chester will get back to you within 24 hours.",
     });
     setFormData({ name: "", email: "", message: "" });
   };
@@ -48,10 +57,18 @@ const Index = () => {
     }));
   };
 
+  const stats = [
+    { number: "15+", label: "Years Experience", icon: Award },
+    { number: "100+", label: "Public Institutions", icon: Shield },
+    { number: "50+", label: "Projects Completed", icon: Target },
+    { number: "3", label: "Major Certifications", icon: Star }
+  ];
+
   const services = [
     {
       category: "Cybersecurity Consulting Services",
       icon: Shield,
+      color: "from-blue-500 to-blue-600",
       items: [
         {
           title: "Cyber Maturity & Risk Assessments",
@@ -86,6 +103,7 @@ const Index = () => {
     {
       category: "Audit Automation",
       icon: Bot,
+      color: "from-green-500 to-green-600",
       items: [
         {
           title: "Python Scripting for Automation",
@@ -112,6 +130,7 @@ const Index = () => {
     {
       category: "App POC Modelling & Prototyping",
       icon: Code,
+      color: "from-purple-500 to-purple-600",
       items: [
         {
           title: "Rapid Application Prototyping",
@@ -130,6 +149,7 @@ const Index = () => {
     {
       category: "Advisory & Leadership",
       icon: Users,
+      color: "from-orange-500 to-orange-600",
       items: [
         {
           title: "Fractional CISO / Audit Lead",
@@ -151,94 +171,150 @@ const Index = () => {
     {
       title: "Vulnerability Report Generator",
       description: "Python-based tool automating vulnerability data transformation into styled Word reports with severity mapping and exploitability logic",
-      icon: Database
+      icon: Database,
+      gradient: "from-red-500 to-pink-500"
     },
     {
       title: "Cybersecurity Inherent Risk Matrix",
       description: "Comprehensive risk-rating model aligned to NIST CSF 2.0, tailored for South African public sector context",
-      icon: Shield
+      icon: Shield,
+      gradient: "from-blue-500 to-cyan-500"
     },
     {
       title: "Smart Hospitality App",
       description: "Mobile-first restaurant service app featuring QR code ordering, dynamic split billing, and timed bookings",
-      icon: Globe
+      icon: Globe,
+      gradient: "from-green-500 to-teal-500"
     },
     {
       title: "Power Platform Project Management Tools",
       description: "Custom solutions for real-time project tracking and automated reporting workflows across enterprise environments",
-      icon: Settings
+      icon: Settings,
+      gradient: "from-purple-500 to-indigo-500"
     }
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Hero Section */}
-      <section className="relative py-20 px-4 bg-gradient-to-br from-primary/5 to-secondary/10">
-        <div className="max-w-6xl mx-auto text-center">
-          <div className="space-y-6">
-            <h1 className="text-5xl md:text-6xl font-bold text-foreground">
-              Chester September
-            </h1>
-            <div className="flex flex-wrap justify-center gap-2 max-w-4xl mx-auto">
-              <Badge variant="secondary" className="text-sm px-3 py-1">Cybersecurity Subject Matter Expert</Badge>
-              <Badge variant="secondary" className="text-sm px-3 py-1">Innovator</Badge>
-              <Badge variant="secondary" className="text-sm px-3 py-1">Creator</Badge>
-              <Badge variant="secondary" className="text-sm px-3 py-1">Automator</Badge>
+      <section className="relative py-24 px-4 bg-gradient-hero">
+        <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <div className={`space-y-8 transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
+            <div className="space-y-4">
+              <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+                Chester September
+              </h1>
+              <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto mb-8">
+                {["Cybersecurity Subject Matter Expert", "Innovator", "Creator", "Automator"].map((title, index) => (
+                  <Badge 
+                    key={title}
+                    variant="secondary" 
+                    className={`text-sm px-4 py-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-all duration-300 transform hover:scale-105 animate-fade-in`}
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    {title}
+                  </Badge>
+                ))}
+              </div>
             </div>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Transforming complex digital risk into clarity, resilience, and results.
+            <p className="text-2xl md:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
+              Transforming complex digital risk into <span className="text-primary font-semibold">clarity</span>, 
+              <span className="text-primary font-semibold"> resilience</span>, and 
+              <span className="text-primary font-semibold"> results</span>.
             </p>
-            <div className="pt-6">
-              <Button size="lg" className="text-lg px-8 py-3" onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}>
+            <div className="pt-8">
+              <Button 
+                size="lg" 
+                className="text-lg px-10 py-4 bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-105 group" 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
                 Let's Work Together
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </div>
+          </div>
+        </div>
+        
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 animate-float">
+          <div className="w-4 h-4 bg-primary/20 rounded-full blur-sm"></div>
+        </div>
+        <div className="absolute top-40 right-20 animate-float" style={{ animationDelay: '1s' }}>
+          <div className="w-6 h-6 bg-primary/30 rounded-full blur-sm"></div>
+        </div>
+        <div className="absolute bottom-20 left-1/4 animate-float" style={{ animationDelay: '2s' }}>
+          <div className="w-3 h-3 bg-primary/25 rounded-full blur-sm"></div>
+        </div>
+      </section>
+
+      {/* Stats Section */}
+      <section className="py-16 px-4 bg-gradient-secondary">
+        <div className="max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+            {stats.map((stat, index) => (
+              <div 
+                key={stat.label}
+                className={`text-center p-6 rounded-2xl bg-card/50 backdrop-blur-sm border border-primary/10 hover:border-primary/30 transition-all duration-300 transform hover:scale-105 animate-slide-up`}
+                style={{ animationDelay: `${index * 0.1}s` }}
+              >
+                <div className="flex justify-center mb-4">
+                  <div className="p-3 bg-primary/10 rounded-full">
+                    <stat.icon className="h-8 w-8 text-primary" />
+                  </div>
+                </div>
+                <div className="text-3xl md:text-4xl font-bold text-primary mb-2">{stat.number}</div>
+                <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* About Section */}
-      <section className="py-20 px-4">
+      <section className="py-24 px-4">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">About Me</h2>
-          <div className="prose prose-lg max-w-none text-muted-foreground space-y-6">
-            <p className="text-lg leading-relaxed">
-              I'm a cybersecurity and audit innovation leader with 15+ years of specialised experience across public and private sectors. I currently head the Cybersecurity Audit Centre of Excellence at the Auditor-General of South Africa (AGSA), where I oversee national cybersecurity audit strategy and execution across 100+ public institutions.
-            </p>
-            <p className="text-lg leading-relaxed">
-              My strengths include cybersecurity assurance, audit automation, RPA, and building scalable systems that bridge regulation and innovation. I've developed national audit methodologies, automated Nessus-based reporting, and implemented RPA across internal audit processes.
-            </p>
-            <p className="text-lg leading-relaxed">
-              As a Certified CISA, CISSP, and COBIT expert, I bring deep technical insight, strategic leadership, and execution strength to every engagement.
-            </p>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-foreground">About Me</h2>
+          <div className="space-y-8 text-lg leading-relaxed text-muted-foreground">
+            <div className="p-8 rounded-2xl bg-gradient-secondary border border-primary/10 animate-slide-up">
+              <p className="mb-6">
+                I'm a cybersecurity and audit innovation leader with <span className="text-primary font-semibold">15+ years of specialised experience</span> across public and private sectors. I currently head the Cybersecurity Audit Centre of Excellence at the Auditor-General of South Africa (AGSA), where I oversee national cybersecurity audit strategy and execution across <span className="text-primary font-semibold">100+ public institutions</span>.
+              </p>
+              <p className="mb-6">
+                My strengths include cybersecurity assurance, audit automation, RPA, and building scalable systems that bridge regulation and innovation. I've developed national audit methodologies, automated Nessus-based reporting, and implemented RPA across internal audit processes.
+              </p>
+              <p>
+                As a Certified <span className="text-primary font-semibold">CISA, CISSP, and COBIT expert</span>, I bring deep technical insight, strategic leadership, and execution strength to every engagement.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Services Section */}
-      <section className="py-20 px-4 bg-muted/30">
+      <section className="py-24 px-4 bg-muted/20">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Services</h2>
-          <div className="space-y-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-20 text-foreground">Services</h2>
+          <div className="space-y-16">
             {services.map((service, index) => (
-              <Card key={index} className="p-6">
-                <CardHeader className="pb-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <service.icon className="h-6 w-6 text-primary" />
+              <Card key={index} className="p-8 bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/30 transition-all duration-500 transform hover:scale-[1.02] animate-slide-up shadow-elegant">
+                <CardHeader className="pb-8">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`p-4 bg-gradient-to-br ${service.color} rounded-2xl shadow-lg`}>
+                      <service.icon className="h-8 w-8 text-white" />
                     </div>
-                    <CardTitle className="text-2xl">{service.category}</CardTitle>
+                    <CardTitle className="text-3xl text-foreground">{service.category}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid md:grid-cols-2 gap-8">
                     {service.items.map((item, itemIndex) => (
-                      <div key={itemIndex} className="space-y-2">
-                        <h4 className="font-semibold text-foreground flex items-start gap-2">
-                          <CheckCircle className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                      <div key={itemIndex} className="group p-6 rounded-xl hover:bg-primary/5 transition-all duration-300">
+                        <h4 className="font-semibold text-foreground flex items-start gap-3 mb-3 group-hover:text-primary transition-colors">
+                          <CheckCircle className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
                           {item.title}
                         </h4>
-                        <p className="text-muted-foreground text-sm leading-relaxed ml-7">
+                        <p className="text-muted-foreground leading-relaxed ml-8">
                           {item.description}
                         </p>
                       </div>
@@ -252,18 +328,18 @@ const Index = () => {
       </section>
 
       {/* Special Projects Section */}
-      <section className="py-20 px-4">
+      <section className="py-24 px-4">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-16">Special Projects</h2>
-          <div className="grid md:grid-cols-2 gap-8">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-20 text-foreground">Special Projects</h2>
+          <div className="grid md:grid-cols-2 gap-10">
             {projects.map((project, index) => (
-              <Card key={index} className="p-6 hover:shadow-lg transition-shadow">
+              <Card key={index} className="group p-8 hover:shadow-elegant transition-all duration-500 transform hover:scale-105 animate-slide-up bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/30">
                 <CardHeader>
-                  <div className="flex items-center gap-3 mb-4">
-                    <div className="p-2 bg-primary/10 rounded-lg">
-                      <project.icon className="h-6 w-6 text-primary" />
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className={`p-4 bg-gradient-to-br ${project.gradient} rounded-2xl shadow-lg group-hover:shadow-glow transition-all duration-300`}>
+                      <project.icon className="h-8 w-8 text-white" />
                     </div>
-                    <CardTitle className="text-xl">{project.title}</CardTitle>
+                    <CardTitle className="text-xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -278,67 +354,67 @@ const Index = () => {
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-20 px-4 bg-muted/30">
+      <section id="contact" className="py-24 px-4 bg-gradient-secondary">
         <div className="max-w-4xl mx-auto">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">Get In Touch</h2>
-          <p className="text-xl text-center text-muted-foreground mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-8 text-foreground">Get In Touch</h2>
+          <p className="text-xl text-center text-muted-foreground mb-16">
             Interested in working together or starting a conversation?
           </p>
           
-          <div className="grid md:grid-cols-2 gap-12">
+          <div className="gridmd:grid-cols-2 gap-12">
             {/* Contact Info */}
-            <div className="space-y-6">
-              <h3 className="text-2xl font-semibold mb-6">Contact Information</h3>
-              <div className="space-y-4">
-                <div className="flex items-center gap-3">
-                  <Mail className="h-5 w-5 text-primary" />
-                  <a href="mailto:cbsept@gmail.com" className="text-muted-foreground hover:text-primary transition-colors">
-                    cbsept@gmail.com
-                  </a>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="h-5 w-5 text-primary" />
-                  <a href="tel:+27741128720" className="text-muted-foreground hover:text-primary transition-colors">
-                    (+27) 074 112 8720
-                  </a>
-                </div>
-                <div className="flex items-center gap-3">
-                  <Linkedin className="h-5 w-5 text-primary" />
-                  <a 
-                    href="https://www.linkedin.com/in/chester-september" 
-                    target="_blank" 
-                    rel="noopener noreferrer" 
-                    className="text-muted-foreground hover:text-primary transition-colors"
-                  >
-                    LinkedIn Profile
-                  </a>
-                </div>
+            <div className="space-y-8">
+              <h3 className="text-2xl font-semibold mb-8 text-foreground">Contact Information</h3>
+              <div className="space-y-6">
+                {[
+                  { icon: Mail, href: "mailto:cbsept@gmail.com", text: "cbsept@gmail.com", label: "Email" },
+                  { icon: Phone, href: "tel:+27741128720", text: "(+27) 074 112 8720", label: "Phone" },
+                  { icon: Linkedin, href: "https://www.linkedin.com/in/chester-september", text: "LinkedIn Profile", label: "LinkedIn" }
+                ].map((contact, index) => (
+                  <div key={contact.label} className="group flex items-center gap-4 p-4 rounded-xl hover:bg-primary/5 transition-all duration-300">
+                    <div className="p-3 bg-primary/10 rounded-full group-hover:bg-primary/20 transition-colors">
+                      <contact.icon className="h-6 w-6 text-primary" />
+                    </div>
+                    <div>
+                      <div className="text-sm text-muted-foreground font-medium">{contact.label}</div>
+                      <a 
+                        href={contact.href}
+                        target={contact.label === "LinkedIn" ? "_blank" : undefined}
+                        rel={contact.label === "LinkedIn" ? "noopener noreferrer" : undefined}
+                        className="text-foreground hover:text-primary transition-colors font-medium"
+                      >
+                        {contact.text}
+                      </a>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
             {/* Contact Form */}
-            <Card className="p-6">
+            <Card className="p-8 bg-card/50 backdrop-blur-sm border-primary/10 shadow-elegant">
               <CardHeader>
-                <CardTitle>Send a Message</CardTitle>
-                <CardDescription>
-                  Fill out the form below and I'll get back to you as soon as possible.
+                <CardTitle className="text-2xl text-foreground">Send a Message</CardTitle>
+                <CardDescription className="text-base">
+                  Fill out the form below and I'll get back to you within 24 hours.
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
-                    <Label htmlFor="name">Name</Label>
+                    <Label htmlFor="name" className="text-foreground font-medium">Name</Label>
                     <Input
                       id="name"
                       name="name"
                       value={formData.name}
                       onChange={handleInputChange}
                       required
-                      className="mt-1"
+                      className="mt-2 border-primary/20 focus:border-primary transition-colors"
+                      placeholder="Your full name"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="email" className="text-foreground font-medium">Email</Label>
                     <Input
                       id="email"
                       name="email"
@@ -346,23 +422,29 @@ const Index = () => {
                       value={formData.email}
                       onChange={handleInputChange}
                       required
-                      className="mt-1"
+                      className="mt-2 border-primary/20 focus:border-primary transition-colors"
+                      placeholder="your.email@example.com"
                     />
                   </div>
                   <div>
-                    <Label htmlFor="message">Message</Label>
+                    <Label htmlFor="message" className="text-foreground font-medium">Message</Label>
                     <Textarea
                       id="message"
                       name="message"
                       value={formData.message}
                       onChange={handleInputChange}
                       required
-                      rows={4}
-                      className="mt-1"
+                      rows={5}
+                      className="mt-2 border-primary/20 focus:border-primary transition-colors resize-none"
+                      placeholder="Tell me about your project or how I can help you..."
                     />
                   </div>
-                  <Button type="submit" className="w-full">
+                  <Button 
+                    type="submit" 
+                    className="w-full bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-[1.02] group text-lg py-3"
+                  >
                     Send Message
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </Button>
                 </form>
               </CardContent>
@@ -372,9 +454,10 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 border-t">
-        <div className="max-w-6xl mx-auto text-center text-muted-foreground">
-          <p>&copy; 2024 Chester September. All rights reserved.</p>
+      <footer className="py-12 px-4 border-t border-primary/10 bg-card/30">
+        <div className="max-w-6xl mx-auto text-center">
+          <p className="text-muted-foreground text-lg">&copy; 2024 Chester September. All rights reserved.</p>
+          <p className="text-muted-foreground/70 text-sm mt-2">Cybersecurity Expert • Innovation Leader • Digital Transformation Specialist</p>
         </div>
       </footer>
     </div>

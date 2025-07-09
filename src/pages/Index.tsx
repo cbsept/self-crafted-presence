@@ -199,52 +199,67 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative py-24 px-4 bg-gradient-hero">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="max-w-6xl mx-auto text-center relative z-10">
-          <div className={`space-y-8 transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-            <div className="space-y-4">
-              <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
-                Chester September
-              </h1>
-              <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto mb-8">
-                {["Cybersecurity Subject Matter Expert", "Innovator", "Creator", "Automator"].map((title, index) => (
-                  <Badge 
-                    key={title}
-                    variant="secondary" 
-                    className={`text-sm px-4 py-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-all duration-300 transform hover:scale-105 animate-fade-in`}
-                    style={{ animationDelay: `${index * 0.1}s` }}
-                  >
-                    {title}
-                  </Badge>
-                ))}
+        <div className="max-w-6xl mx-auto relative z-10">
+          <div className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
+            
+            {/* Text Content */}
+            <div className="space-y-8 text-center lg:text-left">
+              <div className="space-y-4">
+                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
+                  Chester September
+                </h1>
+                <div className="flex flex-wrap justify-center lg:justify-start gap-3 max-w-4xl mb-8">
+                  {["Cybersecurity Subject Matter Expert", "Innovator", "Creator", "Automator"].map((title, index) => (
+                    <Badge 
+                      key={title}
+                      variant="secondary" 
+                      className={`text-sm px-4 py-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-all duration-300 transform hover:scale-105 animate-fade-in`}
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      {title}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+              <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground leading-relaxed font-light">
+                Transforming complex digital risk into <span className="text-primary font-semibold">clarity</span>, 
+                <span className="text-primary font-semibold"> resilience</span>, and 
+                <span className="text-primary font-semibold"> results</span>.
+              </p>
+              <div className="pt-8">
+                <Button 
+                  size="lg" 
+                  className="text-lg px-10 py-4 bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-105 group" 
+                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  Let's Work Together
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
               </div>
             </div>
-            <p className="text-2xl md:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
-              Transforming complex digital risk into <span className="text-primary font-semibold">clarity</span>, 
-              <span className="text-primary font-semibold"> resilience</span>, and 
-              <span className="text-primary font-semibold"> results</span>.
-            </p>
-            <div className="pt-8">
-              <Button 
-                size="lg" 
-                className="text-lg px-10 py-4 bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-105 group" 
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-              >
-                Let's Work Together
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
+
+            {/* Professional Photo */}
+            <div className="relative flex justify-center lg:justify-end">
+              <div className="relative group">
+                {/* Background glow effect */}
+                <div className="absolute -inset-4 bg-gradient-primary rounded-full blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
+                
+                {/* Main photo container */}
+                <div className="relative bg-gradient-to-br from-primary/10 to-primary/5 p-1 rounded-full shadow-elegant hover:shadow-glow transition-all duration-500">
+                  <img 
+                    src="/lovable-uploads/ba74a477-f644-45c4-84ba-0891c55623a4.png"
+                    alt="Chester September - Cybersecurity Expert"
+                    className="w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 object-cover rounded-full border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 transform group-hover:scale-105"
+                  />
+                </div>
+                
+                {/* Floating elements around photo */}
+                <div className="absolute top-10 -left-6 w-8 h-8 bg-primary/20 rounded-full animate-float blur-sm"></div>
+                <div className="absolute bottom-20 -right-8 w-6 h-6 bg-primary/30 rounded-full animate-float blur-sm" style={{ animationDelay: '1s' }}></div>
+                <div className="absolute top-1/2 -left-12 w-4 h-4 bg-primary/25 rounded-full animate-float blur-sm" style={{ animationDelay: '2s' }}></div>
+              </div>
             </div>
           </div>
-        </div>
-        
-        {/* Floating Elements */}
-        <div className="absolute top-20 left-10 animate-float">
-          <div className="w-4 h-4 bg-primary/20 rounded-full blur-sm"></div>
-        </div>
-        <div className="absolute top-40 right-20 animate-float" style={{ animationDelay: '1s' }}>
-          <div className="w-6 h-6 bg-primary/30 rounded-full blur-sm"></div>
-        </div>
-        <div className="absolute bottom-20 left-1/4 animate-float" style={{ animationDelay: '2s' }}>
-          <div className="w-3 h-3 bg-primary/25 rounded-full blur-sm"></div>
         </div>
       </section>
 

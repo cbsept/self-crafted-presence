@@ -46,8 +46,9 @@ All colors MUST be HSL.
     --shadow-glow: 0 0 40px hsl(220 100% 70% / 0.4);
     
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    --radius: 0.5rem;
+    
+    /* Animation keyframes */
+    --animate-float: float 6s ease-in-out infinite;
 
     --sidebar-background: 0 0% 98%;
 
@@ -113,4 +114,18 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground;
   }
+}
+
+/* Custom animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }

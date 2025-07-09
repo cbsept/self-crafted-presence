@@ -196,13 +196,20 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
+      {/* Skip Navigation Link */}
+      <a 
+        href="#main-content" 
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium"
+      >
+        Skip to main content
+      </a>
       {/* Header with Logo */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-primary/10">
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-primary/10" role="banner">
         <div className="max-w-6xl mx-auto px-4 py-4 flex items-center">
           <div className="flex items-center gap-3">
             <img 
               src="/favicon.png" 
-              alt="Chester September Logo" 
+              alt="Chester September Professional Logo - Cybersecurity Expert" 
               className="w-10 h-10"
             />
             <span className="text-xl font-semibold text-foreground">Chester September</span>
@@ -211,12 +218,12 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="relative py-32 px-4 bg-gradient-hero">
+      <section id="main-content" className="relative py-32 px-4 bg-gradient-hero" role="main" aria-labelledby="hero-heading">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <div className={`space-y-8 transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
             <div className="space-y-4">
-              <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+              <h1 id="hero-heading" className="text-6xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
                 Chester September
               </h1>
               <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto mb-8">
@@ -263,7 +270,7 @@ const Index = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 px-4 bg-gradient-secondary">
+      <section className="py-16 px-4 bg-gradient-secondary" aria-labelledby="stats-heading">
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
@@ -286,9 +293,9 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section className="py-24 px-4">
+      <section className="py-24 px-4" aria-labelledby="about-heading">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-foreground">About Me</h2>
+          <h2 id="about-heading" className="text-4xl md:text-5xl font-bold text-center mb-16 text-foreground">About Me</h2>
           
           <div className="grid lg:grid-cols-3 gap-12 items-stretch">
             {/* Professional Photo */}
@@ -392,7 +399,7 @@ const Index = () => {
             Interested in working together or starting a conversation?
           </p>
           
-          <div className="gridmd:grid-cols-2 gap-12">
+          <div className="grid md:grid-cols-2 gap-12">
             {/* Contact Info */}
             <div className="space-y-8">
               <h3 className="text-2xl font-semibold mb-8 text-foreground">Contact Information</h3>
@@ -412,7 +419,8 @@ const Index = () => {
                         href={contact.href}
                         target={contact.label === "LinkedIn" ? "_blank" : undefined}
                         rel={contact.label === "LinkedIn" ? "noopener noreferrer" : undefined}
-                        className="text-foreground hover:text-primary transition-colors font-medium"
+                        className="text-foreground hover:text-primary transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
+                        aria-label={`Contact via ${contact.label}`}
                       >
                         {contact.text}
                       </a>
@@ -472,10 +480,11 @@ const Index = () => {
                   </div>
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-[1.02] group text-lg py-3"
+                    className="w-full bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-[1.02] group text-lg py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    aria-label="Send your message to Chester September"
                   >
                     Send Message
-                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </Button>
                 </form>
               </CardContent>

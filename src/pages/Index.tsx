@@ -196,70 +196,69 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
+      {/* Header with Logo */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-primary/10">
+        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center">
+          <div className="flex items-center gap-3">
+            <img 
+              src="/favicon.png" 
+              alt="Chester September Logo" 
+              className="w-10 h-10"
+            />
+            <span className="text-xl font-semibold text-foreground">Chester September</span>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
-      <section className="relative py-24 px-4 bg-gradient-hero">
+      <section className="relative py-32 px-4 bg-gradient-hero">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
-        <div className="max-w-6xl mx-auto relative z-10">
-          <div className={`grid lg:grid-cols-3 gap-12 items-center transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
-            
-            {/* Text Content */}
-            <div className="lg:col-span-2 space-y-8 text-center lg:text-left">
-              <div className="space-y-4">
-                <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
-                  Chester September
-                </h1>
-                <div className="flex flex-wrap justify-center lg:justify-start gap-3 max-w-4xl mb-8">
-                  {["Cybersecurity Subject Matter Expert", "Innovator", "Creator", "Automator"].map((title, index) => (
-                    <Badge 
-                      key={title}
-                      variant="secondary" 
-                      className={`text-sm px-4 py-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-all duration-300 transform hover:scale-105 animate-fade-in`}
-                      style={{ animationDelay: `${index * 0.1}s` }}
-                    >
-                      {title}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-              <p className="text-xl md:text-2xl lg:text-3xl text-muted-foreground leading-relaxed font-light">
-                Transforming complex digital risk into <span className="text-primary font-semibold">clarity</span>, 
-                <span className="text-primary font-semibold"> resilience</span>, and 
-                <span className="text-primary font-semibold"> results</span>.
-              </p>
-              <div className="pt-8">
-                <Button 
-                  size="lg" 
-                  className="text-lg px-10 py-4 bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-105 group" 
-                  onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
-                >
-                  Let's Work Together
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
+        <div className="max-w-6xl mx-auto text-center relative z-10">
+          <div className={`space-y-8 transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
+            <div className="space-y-4">
+              <h1 className="text-6xl md:text-7xl font-bold text-foreground mb-6 leading-tight">
+                Chester September
+              </h1>
+              <div className="flex flex-wrap justify-center gap-3 max-w-4xl mx-auto mb-8">
+                {["Cybersecurity Subject Matter Expert", "Innovator", "Creator", "Automator"].map((title, index) => (
+                  <Badge 
+                    key={title}
+                    variant="secondary" 
+                    className={`text-sm px-4 py-2 bg-primary/10 text-primary border-primary/20 hover:bg-primary/20 transition-all duration-300 transform hover:scale-105 animate-fade-in`}
+                    style={{ animationDelay: `${index * 0.1}s` }}
+                  >
+                    {title}
+                  </Badge>
+                ))}
               </div>
             </div>
-
-            {/* Professional Photo */}
-            <div className="relative flex justify-center lg:justify-end">
-              <div className="relative group">
-                {/* Background glow effect */}
-                <div className="absolute -inset-4 bg-gradient-primary rounded-full blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
-                
-                {/* Main photo container */}
-                <div className="relative bg-gradient-to-br from-primary/10 to-primary/5 p-1 rounded-3xl shadow-elegant hover:shadow-glow transition-all duration-500">
-                  <img 
-                    src="/lovable-uploads/25f055bf-2233-4401-a297-52a9d3019381.png"
-                    alt="Chester September - Cybersecurity Expert"
-                    className="w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover rounded-2xl border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 transform group-hover:scale-105 grayscale hover:grayscale-0"
-                  />
-                </div>
-                
-                {/* Floating elements around photo */}
-                <div className="absolute top-10 -left-6 w-8 h-8 bg-primary/20 rounded-full animate-float blur-sm"></div>
-                <div className="absolute bottom-20 -right-8 w-6 h-6 bg-primary/30 rounded-full animate-float blur-sm" style={{ animationDelay: '1s' }}></div>
-                <div className="absolute top-1/2 -left-12 w-4 h-4 bg-primary/25 rounded-full animate-float blur-sm" style={{ animationDelay: '2s' }}></div>
-              </div>
+            <p className="text-2xl md:text-3xl text-muted-foreground max-w-4xl mx-auto leading-relaxed font-light">
+              Transforming complex digital risk into <span className="text-primary font-semibold">clarity</span>, 
+              <span className="text-primary font-semibold"> resilience</span>, and 
+              <span className="text-primary font-semibold"> results</span>.
+            </p>
+            <div className="pt-8">
+              <Button 
+                size="lg" 
+                className="text-lg px-10 py-4 bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-105 group" 
+                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+              >
+                Let's Work Together
+                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
             </div>
           </div>
+        </div>
+        
+        {/* Floating Elements */}
+        <div className="absolute top-20 left-10 animate-float">
+          <div className="w-4 h-4 bg-primary/20 rounded-full blur-sm"></div>
+        </div>
+        <div className="absolute top-40 right-20 animate-float" style={{ animationDelay: '1s' }}>
+          <div className="w-6 h-6 bg-primary/30 rounded-full blur-sm"></div>
+        </div>
+        <div className="absolute bottom-20 left-1/4 animate-float" style={{ animationDelay: '2s' }}>
+          <div className="w-3 h-3 bg-primary/25 rounded-full blur-sm"></div>
         </div>
       </section>
 
@@ -288,19 +287,36 @@ const Index = () => {
 
       {/* About Section */}
       <section className="py-24 px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-foreground">About Me</h2>
-          <div className="space-y-8 text-lg leading-relaxed text-muted-foreground">
-            <div className="p-8 rounded-2xl bg-gradient-secondary border border-primary/10 animate-slide-up">
-              <p className="mb-6">
-                I'm a cybersecurity and audit innovation leader with <span className="text-primary font-semibold">over 15 years of specialised experience</span> across public and private sectors. I currently head a Cybersecurity Audit Centre of Excellence at my place of employment, where I oversee a national cybersecurity audit strategy and execution across <span className="text-primary font-semibold">100+ public institutions</span>.
-              </p>
-              <p className="mb-6">
-                My strengths include cybersecurity assurance, audit automation, RPA, and building scalable systems that bridge regulation and innovation. I've developed national audit methodologies, automated vulnerability reporting, and implemented RPA for streamlined project management.
-              </p>
-              <p>
-                As a <span className="text-primary font-semibold">certified cybersecurity expert</span>, I bring deep technical insight, strategic leadership, and execution strength to every engagement.
-              </p>
+          
+          <div className="grid lg:grid-cols-3 gap-12 items-start">
+            {/* Professional Photo */}
+            <div className="lg:col-span-1 flex justify-center">
+              <div className="relative group max-w-sm">
+                <div className="relative bg-gradient-to-br from-primary/10 to-primary/5 p-1 rounded-3xl shadow-elegant hover:shadow-glow transition-all duration-500">
+                  <img 
+                    src="/lovable-uploads/25f055bf-2233-4401-a297-52a9d3019381.png"
+                    alt="Chester September - Cybersecurity Expert"
+                    className="w-full h-auto object-cover rounded-2xl border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 transform group-hover:scale-105 grayscale hover:grayscale-0"
+                  />
+                </div>
+              </div>
+            </div>
+
+            {/* Text Content */}
+            <div className="lg:col-span-2 space-y-8 text-lg leading-relaxed text-muted-foreground">
+              <div className="p-8 rounded-2xl bg-gradient-secondary border border-primary/10 animate-slide-up">
+                <p className="mb-6">
+                  I'm a cybersecurity and audit innovation leader with <span className="text-primary font-semibold">over 15 years of specialised experience</span> across public and private sectors. I currently head a Cybersecurity Audit Centre of Excellence at my place of employment, where I oversee a national cybersecurity audit strategy and execution across <span className="text-primary font-semibold">100+ public institutions</span>.
+                </p>
+                <p className="mb-6">
+                  My strengths include cybersecurity assurance, audit automation, RPA, and building scalable systems that bridge regulation and innovation. I've developed national audit methodologies, automated vulnerability reporting, and implemented RPA for streamlined project management.
+                </p>
+                <p>
+                  As a <span className="text-primary font-semibold">certified cybersecurity expert</span>, I bring deep technical insight, strategic leadership, and execution strength to every engagement.
+                </p>
+              </div>
             </div>
           </div>
         </div>

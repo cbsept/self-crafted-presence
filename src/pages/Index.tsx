@@ -245,11 +245,11 @@ const Index = () => {
                 <div className="absolute -inset-4 bg-gradient-primary rounded-full blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
                 
                 {/* Main photo container */}
-                <div className="relative bg-gradient-to-br from-primary/10 to-primary/5 p-1 rounded-full shadow-elegant hover:shadow-glow transition-all duration-500">
+                <div className="relative bg-gradient-to-br from-primary/10 to-primary/5 p-1 rounded-3xl shadow-elegant hover:shadow-glow transition-all duration-500">
                   <img 
                     src="/lovable-uploads/25f055bf-2233-4401-a297-52a9d3019381.png"
                     alt="Chester September - Cybersecurity Expert"
-                    className="w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover object-top rounded-full border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 transform group-hover:scale-105 grayscale hover:grayscale-0"
+                    className="w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover rounded-2xl border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 transform group-hover:scale-105 grayscale hover:grayscale-0"
                   />
                 </div>
                 

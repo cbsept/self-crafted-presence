@@ -200,10 +200,10 @@ const Index = () => {
       <section className="relative py-24 px-4 bg-gradient-hero">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="max-w-6xl mx-auto relative z-10">
-          <div className={`grid lg:grid-cols-2 gap-12 items-center transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
+          <div className={`grid lg:grid-cols-3 gap-12 items-center transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
             
             {/* Text Content */}
-            <div className="space-y-8 text-center lg:text-left">
+            <div className="lg:col-span-2 space-y-8 text-center lg:text-left">
               <div className="space-y-4">
                 <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-6 leading-tight">
                   Chester September

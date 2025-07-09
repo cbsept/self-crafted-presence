@@ -290,7 +290,7 @@ const Index = () => {
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-16 text-foreground">About Me</h2>
           
-          <div className="grid lg:grid-cols-3 gap-12 items-start">
+          <div className="grid lg:grid-cols-3 gap-12 items-stretch">
             {/* Professional Photo */}
             <div className="lg:col-span-1 flex justify-center">
               <div className="relative group max-w-sm">

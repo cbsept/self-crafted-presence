@@ -59,9 +59,9 @@ const Index = () => {
 
   const stats = [
     { number: "15+", label: "Years Experience", icon: Award },
-    { number: "100+", label: "Public Institutions", icon: Shield },
-    { number: "50+", label: "Projects Completed", icon: Target },
-    { number: "3", label: "Major Certifications", icon: Star }
+    { number: "100+", label: "Organisations Serviced", icon: Shield },
+    { number: "1000+", label: "Projects Completed", icon: Target },
+    { number: "4", label: "Major Certifications", icon: Star }
   ];
 
   const services = [
@@ -278,13 +278,13 @@ const Index = () => {
           <div className="space-y-8 text-lg leading-relaxed text-muted-foreground">
             <div className="p-8 rounded-2xl bg-gradient-secondary border border-primary/10 animate-slide-up">
               <p className="mb-6">
-                I'm a cybersecurity and audit innovation leader with <span className="text-primary font-semibold">15+ years of specialised experience</span> across public and private sectors. I currently head the Cybersecurity Audit Centre of Excellence at the Auditor-General of South Africa (AGSA), where I oversee national cybersecurity audit strategy and execution across <span className="text-primary font-semibold">100+ public institutions</span>.
+                I'm a cybersecurity and audit innovation leader with <span className="text-primary font-semibold">over 15 years of specialised experience</span> across public and private sectors. I currently head a Cybersecurity Audit Centre of Excellence at my place of employment, where I oversee a national cybersecurity audit strategy and execution across <span className="text-primary font-semibold">100+ public institutions</span>.
               </p>
               <p className="mb-6">
-                My strengths include cybersecurity assurance, audit automation, RPA, and building scalable systems that bridge regulation and innovation. I've developed national audit methodologies, automated Nessus-based reporting, and implemented RPA across internal audit processes.
+                My strengths include cybersecurity assurance, audit automation, RPA, and building scalable systems that bridge regulation and innovation. I've developed national audit methodologies, automated vulnerability reporting, and implemented RPA for streamlined project management.
               </p>
               <p>
-                As a Certified <span className="text-primary font-semibold">CISA, CISSP, and COBIT expert</span>, I bring deep technical insight, strategic leadership, and execution strength to every engagement.
+                As a <span className="text-primary font-semibold">certified cybersecurity expert</span>, I bring deep technical insight, strategic leadership, and execution strength to every engagement.
               </p>
             </div>
           </div>

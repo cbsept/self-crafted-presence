@@ -249,7 +249,7 @@ const Index = () => {
                   <img 
                     src="/lovable-uploads/25f055bf-2233-4401-a297-52a9d3019381.png"
                     alt="Chester September - Cybersecurity Expert"
-                    className="w-72 h-72 md:w-80 md:h-80 lg:w-96 lg:h-96 object-cover rounded-full border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 transform group-hover:scale-105"
+                    className="w-64 h-64 md:w-72 md:h-72 lg:w-80 lg:h-80 object-cover rounded-full border-4 border-primary/20 hover:border-primary/40 transition-all duration-500 transform group-hover:scale-105 grayscale hover:grayscale-0"
                   />
                 </div>
                 

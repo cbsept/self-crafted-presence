@@ -6,14 +6,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useState, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
-import ReCAPTCHA from "react-google-recaptcha";
-
-// Global grecaptcha declaration for TypeScript
-declare global {
-  interface Window {
-    grecaptcha: any;
-  }
-}
+// Simple math-based CAPTCHA for security without external dependencies
 import { 
   Shield, 
   Code, 
@@ -43,23 +36,33 @@ const Index = () => {
   });
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
+  const [mathQuestion, setMathQuestion] = useState({ num1: 0, num2: 0, answer: 0 });
+  const [userAnswer, setUserAnswer] = useState("");
   const { toast } = useToast();
 
   useEffect(() => {
     setIsVisible(true);
+    generateMathQuestion();
+  }, []);
+
+  const generateMathQuestion = useCallback(() => {
+    const num1 = Math.floor(Math.random() * 10) + 1;
+    const num2 = Math.floor(Math.random() * 10) + 1;
+    setMathQuestion({ num1, num2, answer: num1 + num2 });
+    setUserAnswer("");
   }, []);
 
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Security validation
-    if (!captchaValue) {
+    // Security validation - Math CAPTCHA
+    if (parseInt(userAnswer) !== mathQuestion.answer) {
       toast({
-        title: "Security verification required",
-        description: "Please complete the CAPTCHA verification.",
+        title: "Security verification failed",
+        description: "Please solve the math problem correctly.",
         variant: "destructive"
       });
+      generateMathQuestion();
       return;
     }
 
@@ -106,13 +109,8 @@ const Index = () => {
       
       // Reset form securely
       setFormData({ name: "", email: "", message: "" });
-      setCaptchaValue(null);
-      
-      // Reset reCAPTCHA
-      const recaptchaElement = document.querySelector('.g-recaptcha') as any;
-      if (recaptchaElement && recaptchaElement.querySelector('iframe')) {
-        window.grecaptcha?.reset();
-      }
+      setUserAnswer("");
+      generateMathQuestion();
     } catch (error) {
       toast({
         title: "Failed to send message",
@@ -122,7 +120,7 @@ const Index = () => {
     } finally {
       setIsSubmitting(false);
     }
-  }, [formData, captchaValue, toast]);
+  }, [formData, userAnswer, mathQuestion.answer, toast, generateMathQuestion]);
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -136,8 +134,8 @@ const Index = () => {
     }));
   }, []);
 
-  const handleCaptchaChange = useCallback((value: string | null) => {
-    setCaptchaValue(value);
+  const handleMathAnswerChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setUserAnswer(e.target.value);
   }, []);
 
   const stats = [
@@ -566,19 +564,41 @@ const Index = () => {
                     </div>
                   </div>
                   
-                  {/* Security CAPTCHA */}
-                  <div className="flex justify-center">
-                    <ReCAPTCHA
-                      sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Test key - replace with real key
-                      onChange={handleCaptchaChange}
-                      theme="light"
-                      size="normal"
-                    />
+                  {/* Security Math CAPTCHA */}
+                  <div className="p-4 bg-muted/50 rounded-lg border border-primary/20">
+                    <Label className="text-foreground font-medium mb-3 block">
+                      Security Verification
+                    </Label>
+                    <div className="flex items-center gap-4">
+                      <span className="text-lg font-mono bg-primary/10 px-3 py-2 rounded border">
+                        {mathQuestion.num1} + {mathQuestion.num2} = ?
+                      </span>
+                      <Input
+                        type="number"
+                        value={userAnswer}
+                        onChange={handleMathAnswerChange}
+                        placeholder="Answer"
+                        className="w-24 text-center"
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        size="sm"
+                        onClick={generateMathQuestion}
+                        className="text-xs"
+                      >
+                        New Question
+                      </Button>
+                    </div>
+                    <p className="text-xs text-muted-foreground mt-2">
+                      This helps prevent automated spam submissions
+                    </p>
                   </div>
                   
                   <Button 
                     type="submit" 
-                    disabled={isSubmitting || !captchaValue}
+                    disabled={isSubmitting || !userAnswer}
                     className="w-full bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-[1.02] group text-lg py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     aria-label="Send your message to Chester September"
                   >

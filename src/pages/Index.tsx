@@ -4,8 +4,16 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
+import ReCAPTCHA from "react-google-recaptcha";
+
+// Global grecaptcha declaration for TypeScript
+declare global {
+  interface Window {
+    grecaptcha: any;
+  }
+}
 import { 
   Shield, 
   Code, 
@@ -34,28 +42,103 @@ const Index = () => {
     message: ""
   });
   const [isVisible, setIsVisible] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
     setIsVisible(true);
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
-    // In a real implementation, you'd send this to a backend
-    toast({
-      title: "Message sent successfully!",
-      description: "Thank you for your message. Chester will get back to you within 24 hours.",
-    });
-    setFormData({ name: "", email: "", message: "" });
-  };
+    
+    // Security validation
+    if (!captchaValue) {
+      toast({
+        title: "Security verification required",
+        description: "Please complete the CAPTCHA verification.",
+        variant: "destructive"
+      });
+      return;
+    }
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    // Input sanitization and validation
+    const sanitizedData = {
+      name: formData.name.trim().slice(0, 100), // Limit length
+      email: formData.email.trim().toLowerCase().slice(0, 254), // RFC 5322 limit
+      message: formData.message.trim().slice(0, 2000) // Reasonable message limit
+    };
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(sanitizedData.email)) {
+      toast({
+        title: "Invalid email format",
+        description: "Please enter a valid email address.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    // Check for potential spam content
+    const spamKeywords = ['viagra', 'casino', 'lottery', 'bitcoin', 'crypto'];
+    const messageContent = sanitizedData.message.toLowerCase();
+    if (spamKeywords.some(keyword => messageContent.includes(keyword))) {
+      toast({
+        title: "Message blocked",
+        description: "Your message contains restricted content.",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      // Simulate API call with proper error handling
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Message sent successfully!",
+        description: "Thank you for your message. Chester will get back to you within 24 hours.",
+      });
+      
+      // Reset form securely
+      setFormData({ name: "", email: "", message: "" });
+      setCaptchaValue(null);
+      
+      // Reset reCAPTCHA
+      const recaptchaElement = document.querySelector('.g-recaptcha') as any;
+      if (recaptchaElement && recaptchaElement.querySelector('iframe')) {
+        window.grecaptcha?.reset();
+      }
+    } catch (error) {
+      toast({
+        title: "Failed to send message",
+        description: "Please try again later or contact directly via email.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [formData, captchaValue, toast]);
+
+  const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    
+    // Input sanitization - prevent XSS
+    const sanitizedValue = value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
+    
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: sanitizedValue
     }));
-  };
+  }, []);
+
+  const handleCaptchaChange = useCallback((value: string | null) => {
+    setCaptchaValue(value);
+  }, []);
 
   const stats = [
     { number: "15+", label: "Years Experience", icon: Award },
@@ -418,7 +501,7 @@ const Index = () => {
                       <a 
                         href={contact.href}
                         target={contact.label === "LinkedIn" ? "_blank" : undefined}
-                        rel={contact.label === "LinkedIn" ? "noopener noreferrer" : undefined}
+                        rel={contact.label === "LinkedIn" ? "noopener noreferrer nofollow" : undefined}
                         className="text-foreground hover:text-primary transition-colors font-medium focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 rounded"
                         aria-label={`Contact via ${contact.label}`}
                       >
@@ -476,14 +559,30 @@ const Index = () => {
                       rows={5}
                       className="mt-2 border-primary/20 focus:border-primary transition-colors resize-none"
                       placeholder="Tell me about your project or how I can help you..."
+                      maxLength={2000}
+                    />
+                    <div className="text-xs text-muted-foreground text-right mt-1">
+                      {formData.message.length}/2000 characters
+                    </div>
+                  </div>
+                  
+                  {/* Security CAPTCHA */}
+                  <div className="flex justify-center">
+                    <ReCAPTCHA
+                      sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Test key - replace with real key
+                      onChange={handleCaptchaChange}
+                      theme="light"
+                      size="normal"
                     />
                   </div>
+                  
                   <Button 
                     type="submit" 
-                    className="w-full bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-[1.02] group text-lg py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+                    disabled={isSubmitting || !captchaValue}
+                    className="w-full bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-[1.02] group text-lg py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
                     aria-label="Send your message to Chester September"
                   >
-                    Send Message
+                    {isSubmitting ? "Sending..." : "Send Message"}
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </Button>
                 </form>

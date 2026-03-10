@@ -25,7 +25,10 @@ import {
   ArrowRight,
   Star,
   TrendingUp,
-  Target
+  Target,
+  ShoppingBag,
+  FileText,
+  ExternalLink
 } from "lucide-react";
 
 const Index = () => {
@@ -468,6 +471,72 @@ const Index = () => {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Digital Products Section */}
+      <section className="py-24 px-4 bg-muted/20" aria-labelledby="products-heading">
+        <div className="max-w-6xl mx-auto">
+          <h2 id="products-heading" className="text-4xl md:text-5xl font-bold text-center mb-6 text-foreground">Digital Products</h2>
+          <p className="text-xl text-center text-muted-foreground mb-16 max-w-3xl mx-auto">
+            Practical cybersecurity resources you can implement immediately — built from real-world experience.
+          </p>
+          
+          <div className="max-w-4xl mx-auto">
+            <Card className="overflow-hidden bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/30 transition-all duration-500 shadow-elegant hover:shadow-glow group">
+              <div className="grid md:grid-cols-2 gap-0">
+                {/* Product Image */}
+                <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-blue-800 p-8 flex items-center justify-center min-h-[280px]">
+                  <div className="text-center space-y-4">
+                    <div className="p-4 bg-white/10 rounded-2xl inline-block backdrop-blur-sm">
+                      <FileText className="h-16 w-16 text-white" />
+                    </div>
+                    <div className="space-y-1">
+                      <Badge className="bg-white/20 text-white border-white/30 text-xs">NEW RELEASE</Badge>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Product Details */}
+                <div className="p-8 flex flex-col justify-between">
+                  <div className="space-y-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <h3 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors">
+                        SME Cybersecurity Governance Starter Kit
+                      </h3>
+                    </div>
+                    <p className="text-muted-foreground leading-relaxed">
+                      A practical toolkit with professionally structured policies, risk templates, and an implementation guide — designed for small and medium organisations to establish cybersecurity governance without expensive consulting fees.
+                    </p>
+                    <div className="space-y-2">
+                      {[
+                        "Cybersecurity Policy & Incident Response Plan",
+                        "Cyber Risk Register & Board Reporting Template",
+                        "Minimum Controls Checklist + Implementation Guide"
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-start gap-2 text-sm text-muted-foreground">
+                          <CheckCircle className="h-4 w-4 text-primary mt-0.5 flex-shrink-0" />
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                  <div className="mt-6 flex items-center gap-4">
+                    <Button 
+                      size="lg"
+                      className="bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-105 group/btn"
+                      onClick={() => window.open('https://chesterseptember.gumroad.com/l/SMEStarter', '_blank', 'noopener,noreferrer')}
+                    >
+                      <ShoppingBag className="mr-2 h-5 w-5" />
+                      Get the Toolkit
+                      <ExternalLink className="ml-2 h-4 w-4 opacity-70 group-hover/btn:opacity-100 transition-opacity" />
+                    </Button>
+                    <span className="text-2xl font-bold text-primary">R799</span>
+                  </div>
+                </div>
+              </div>
+            </Card>
           </div>
         </div>
       </section>

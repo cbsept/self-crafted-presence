@@ -25,7 +25,10 @@ import {
   ArrowRight,
   Star,
   TrendingUp,
-  Target
+  Target,
+  ShoppingBag,
+  FileText,
+  ExternalLink
 } from "lucide-react";
 
 const Index = () => {

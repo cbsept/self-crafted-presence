@@ -4,9 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useState, useEffect, useCallback } from "react";
 import { useToast } from "@/hooks/use-toast";
-// Simple math-based CAPTCHA for security without external dependencies
 import { 
   Shield, 
   Code, 
@@ -28,8 +28,26 @@ import {
   Target,
   ShoppingBag,
   FileText,
-  ExternalLink
+  ExternalLink,
+  Menu,
+  Gauge,
+  ClipboardCheck,
+  ShieldCheck,
+  UserCheck,
+  HardDrive,
+  AlertTriangle,
+  Truck
 } from "lucide-react";
+
+const navLinks = [
+  { label: "Home", href: "#main-content" },
+  { label: "About", href: "#about" },
+  { label: "CyberGauge", href: "#cybergauge" },
+  { label: "Services", href: "#services" },
+  { label: "Projects", href: "#projects" },
+  { label: "Products", href: "#products" },
+  { label: "Contact", href: "#contact" },
+];
 
 const Index = () => {
   const [formData, setFormData] = useState({
@@ -41,6 +59,7 @@ const Index = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mathQuestion, setMathQuestion] = useState({ num1: 0, num2: 0, answer: 0 });
   const [userAnswer, setUserAnswer] = useState("");
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -55,10 +74,15 @@ const Index = () => {
     setUserAnswer("");
   }, []);
 
+  const scrollTo = useCallback((href: string) => {
+    const id = href.replace("#", "");
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+    setMobileMenuOpen(false);
+  }, []);
+
   const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Security validation - Math CAPTCHA
     if (parseInt(userAnswer) !== mathQuestion.answer) {
       toast({
         title: "Security verification failed",
@@ -69,14 +93,12 @@ const Index = () => {
       return;
     }
 
-    // Input sanitization and validation
     const sanitizedData = {
-      name: formData.name.trim().slice(0, 100), // Limit length
-      email: formData.email.trim().toLowerCase().slice(0, 254), // RFC 5322 limit
-      message: formData.message.trim().slice(0, 2000) // Reasonable message limit
+      name: formData.name.trim().slice(0, 100),
+      email: formData.email.trim().toLowerCase().slice(0, 254),
+      message: formData.message.trim().slice(0, 2000)
     };
 
-    // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(sanitizedData.email)) {
       toast({
@@ -87,7 +109,6 @@ const Index = () => {
       return;
     }
 
-    // Check for potential spam content
     const spamKeywords = ['viagra', 'casino', 'lottery', 'bitcoin', 'crypto'];
     const messageContent = sanitizedData.message.toLowerCase();
     if (spamKeywords.some(keyword => messageContent.includes(keyword))) {
@@ -102,7 +123,6 @@ const Index = () => {
     setIsSubmitting(true);
     
     try {
-      // Simulate API call with proper error handling
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
@@ -110,7 +130,6 @@ const Index = () => {
         description: "Thank you for your message. Chester will get back to you within 24 hours.",
       });
       
-      // Reset form securely
       setFormData({ name: "", email: "", message: "" });
       setUserAnswer("");
       generateMathQuestion();
@@ -127,10 +146,7 @@ const Index = () => {
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    
-    // Input sanitization - prevent XSS
     const sanitizedValue = value.replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, '');
-    
     setFormData(prev => ({
       ...prev,
       [name]: sanitizedValue
@@ -154,34 +170,13 @@ const Index = () => {
       icon: Shield,
       color: "from-blue-500 to-blue-600",
       items: [
-        {
-          title: "Cyber Maturity & Risk Assessments",
-          description: "Structured assessments using NIST, ISO 27001, ISF frameworks"
-        },
-        {
-          title: "Cybersecurity Audit Integration", 
-          description: "Embedding cybersecurity risk into statutory and performance audit processes"
-        },
-        {
-          title: "Governance, Risk & Compliance (GRC)",
-          description: "Establishing cybersecurity governance structures and control environments"
-        },
-        {
-          title: "WebTrust / PKI Advisory",
-          description: "Expert guidance on PKI systems and certificate lifecycle management"
-        },
-        {
-          title: "Third-Party & Supply Chain Cyber Risk",
-          description: "Frameworks for assessing and monitoring third-party providers"
-        },
-        {
-          title: "Vulnerability Management & Technical Assessment",
-          description: "Interpreting technical testing results for assurance relevance"
-        },
-        {
-          title: "Secure System Development & Architecture Review",
-          description: "Evaluating systems for cybersecurity design adequacy"
-        }
+        { title: "Cyber Maturity & Risk Assessments", description: "Structured assessments using NIST, ISO 27001, ISF frameworks" },
+        { title: "Cybersecurity Audit Integration", description: "Embedding cybersecurity risk into statutory and performance audit processes" },
+        { title: "Governance, Risk & Compliance (GRC)", description: "Establishing cybersecurity governance structures and control environments" },
+        { title: "WebTrust / PKI Advisory", description: "Expert guidance on PKI systems and certificate lifecycle management" },
+        { title: "Third-Party & Supply Chain Cyber Risk", description: "Frameworks for assessing and monitoring third-party providers" },
+        { title: "Vulnerability Management & Technical Assessment", description: "Interpreting technical testing results for assurance relevance" },
+        { title: "Secure System Development & Architecture Review", description: "Evaluating systems for cybersecurity design adequacy" }
       ]
     },
     {
@@ -189,26 +184,11 @@ const Index = () => {
       icon: Bot,
       color: "from-green-500 to-green-600",
       items: [
-        {
-          title: "Python Scripting for Automation",
-          description: "Custom scripts for audit procedures and report generation"
-        },
-        {
-          title: "MS Power Platform for RPA",
-          description: "Leveraging Power Automate and Power Apps for workflow orchestration"
-        },
-        {
-          title: "Automated Cybersecurity Audit Tools",
-          description: "Bespoke tools like Nessus report generators with risk classification"
-        },
-        {
-          title: "Data-Driven Audit Procedures",
-          description: "Analytics and rule-based logic for automated testing"
-        },
-        {
-          title: "End-to-End Digital Workflow Design",
-          description: "Full audit lifecycle automations from planning to reporting"
-        }
+        { title: "Python Scripting for Automation", description: "Custom scripts for audit procedures and report generation" },
+        { title: "MS Power Platform for RPA", description: "Leveraging Power Automate and Power Apps for workflow orchestration" },
+        { title: "Automated Cybersecurity Audit Tools", description: "Bespoke tools like Nessus report generators with risk classification" },
+        { title: "Data-Driven Audit Procedures", description: "Analytics and rule-based logic for automated testing" },
+        { title: "End-to-End Digital Workflow Design", description: "Full audit lifecycle automations from planning to reporting" }
       ]
     },
     {
@@ -216,18 +196,9 @@ const Index = () => {
       icon: Code,
       color: "from-purple-500 to-purple-600",
       items: [
-        {
-          title: "Rapid Application Prototyping",
-          description: "Functional prototypes to validate business concepts"
-        },
-        {
-          title: "Proof-of-Concept (POC) Modelling",
-          description: "Translating ideas into tangible application models"
-        },
-        {
-          title: "MVP App Modelling",
-          description: "Simplified versions capturing essential features and user journeys"
-        }
+        { title: "Rapid Application Prototyping", description: "Functional prototypes to validate business concepts" },
+        { title: "Proof-of-Concept (POC) Modelling", description: "Translating ideas into tangible application models" },
+        { title: "MVP App Modelling", description: "Simplified versions capturing essential features and user journeys" }
       ]
     },
     {
@@ -235,23 +206,21 @@ const Index = () => {
       icon: Users,
       color: "from-orange-500 to-orange-600",
       items: [
-        {
-          title: "Fractional CISO / Audit Lead",
-          description: "Strategic cybersecurity leadership on a fractional basis"
-        },
-        {
-          title: "Framework Implementation",
-          description: "SOC 2 Type II, NIST CSF 2.0, COBIT 5, ISO 27001"
-        },
-        {
-          title: "Public Sector Transformation Strategy",
-          description: "National and institutional cybersecurity transformation initiatives"
-        }
+        { title: "Fractional CISO / Audit Lead", description: "Strategic cybersecurity leadership on a fractional basis" },
+        { title: "Framework Implementation", description: "SOC 2 Type II, NIST CSF 2.0, COBIT 5, ISO 27001" },
+        { title: "Public Sector Transformation Strategy", description: "National and institutional cybersecurity transformation initiatives" }
       ]
     }
   ];
 
   const projects = [
+    {
+      title: "CyberGauge",
+      description: "A cybersecurity posture assessment platform that helps organisations evaluate governance, identity management, technology security, data protection, incident response, and supplier risk in ~10 minutes.",
+      icon: Gauge,
+      gradient: "from-primary to-primary-glow",
+      link: "https://cybergauge.chesterseptember.co.za"
+    },
     {
       title: "Vulnerability Report Generator",
       description: "Python-based tool automating vulnerability data transformation into styled Word reports with severity mapping and exploitability logic",
@@ -278,6 +247,15 @@ const Index = () => {
     }
   ];
 
+  const cyberGaugeAreas = [
+    { icon: ShieldCheck, label: "Governance" },
+    { icon: UserCheck, label: "Identity Management" },
+    { icon: HardDrive, label: "Technology Security" },
+    { icon: Lock, label: "Data Protection" },
+    { icon: AlertTriangle, label: "Incident Response" },
+    { icon: Truck, label: "Supplier Risk" },
+  ];
+
   return (
     <div className="min-h-screen bg-background overflow-x-hidden">
       {/* Skip Navigation Link */}
@@ -287,22 +265,76 @@ const Index = () => {
       >
         Skip to main content
       </a>
-      {/* Header with Logo */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-sm border-b border-primary/10" role="banner">
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center">
-          <div className="flex items-center gap-3">
+
+      {/* Navigation Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-border/50" role="banner">
+        <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+          <button onClick={() => scrollTo("#main-content")} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
             <img 
               src="/favicon.png" 
-              alt="Chester September Professional Logo - Cybersecurity Expert" 
-              className="w-10 h-10"
+              alt="Chester September Professional Logo" 
+              className="w-9 h-9"
             />
-            <span className="text-xl font-semibold text-foreground">Chester September</span>
-          </div>
+            <span className="text-lg font-semibold text-foreground hidden sm:inline">Chester September</span>
+          </button>
+
+          {/* Desktop Nav */}
+          <nav className="hidden md:flex items-center gap-1" aria-label="Main navigation">
+            {navLinks.map((link) => (
+              <button
+                key={link.label}
+                onClick={() => scrollTo(link.href)}
+                className="px-3 py-2 text-sm font-medium text-muted-foreground hover:text-primary rounded-md hover:bg-primary/5 transition-all duration-200"
+              >
+                {link.label}
+              </button>
+            ))}
+          </nav>
+
+          {/* Mobile Menu */}
+          <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
+            <SheetTrigger asChild className="md:hidden">
+              <Button variant="ghost" size="icon" aria-label="Open menu">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <nav className="flex flex-col gap-2 mt-8" aria-label="Mobile navigation">
+                {navLinks.map((link) => (
+                  <button
+                    key={link.label}
+                    onClick={() => scrollTo(link.href)}
+                    className="px-4 py-3 text-left text-base font-medium text-foreground hover:text-primary hover:bg-primary/5 rounded-lg transition-all duration-200"
+                  >
+                    {link.label}
+                  </button>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
         </div>
       </header>
 
+      {/* CyberGauge Announcement Banner */}
+      <div className="fixed top-[57px] left-0 right-0 z-40 bg-gradient-to-r from-primary to-primary-glow text-primary-foreground">
+        <div className="max-w-6xl mx-auto px-4 py-2 flex items-center justify-center gap-3 text-sm">
+          <Gauge className="h-4 w-4 flex-shrink-0" />
+          <span className="font-medium">
+            <span className="hidden sm:inline">NEW: </span>CyberGauge — Assess your cybersecurity posture in 10 minutes
+          </span>
+          <a 
+            href="https://cybergauge.chesterseptember.co.za" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="underline underline-offset-2 font-semibold hover:opacity-80 transition-opacity flex items-center gap-1"
+          >
+            Try it now <ArrowRight className="h-3 w-3" />
+          </a>
+        </div>
+      </div>
+
       {/* Hero Section */}
-      <section id="main-content" className="relative py-32 px-4 bg-gradient-hero" role="main" aria-labelledby="hero-heading">
+      <section id="main-content" className="relative pt-40 pb-32 px-4 bg-gradient-hero" role="main" aria-labelledby="hero-heading">
         <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
         <div className="max-w-6xl mx-auto text-center relative z-10">
           <div className={`space-y-8 transition-all duration-1000 ${isVisible ? 'animate-fade-in' : 'opacity-0'}`}>
@@ -328,14 +360,23 @@ const Index = () => {
               <span className="text-primary font-semibold"> resilience</span>, and 
               <span className="text-primary font-semibold"> results</span>.
             </p>
-            <div className="pt-8">
+            <div className="pt-8 flex flex-wrap justify-center gap-4">
               <Button 
                 size="lg" 
                 className="text-lg px-10 py-4 bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-105 group" 
-                onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+                onClick={() => scrollTo('#contact')}
               >
                 Let's Work Together
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline"
+                className="text-lg px-10 py-4 border-primary/30 hover:bg-primary/5 transition-all duration-300 transform hover:scale-105 group" 
+                onClick={() => scrollTo('#cybergauge')}
+              >
+                <Gauge className="mr-2 h-5 w-5" />
+                Explore CyberGauge
               </Button>
             </div>
           </div>
@@ -377,7 +418,7 @@ const Index = () => {
       </section>
 
       {/* About Section */}
-      <section className="py-24 px-4" aria-labelledby="about-heading">
+      <section id="about" className="py-24 px-4" aria-labelledby="about-heading">
         <div className="max-w-6xl mx-auto">
           <h2 id="about-heading" className="text-4xl md:text-5xl font-bold text-center mb-16 text-foreground">About Me</h2>
           
@@ -404,6 +445,9 @@ const Index = () => {
                 <p className="mb-6">
                   My strengths include cybersecurity assurance, audit automation, RPA, and building scalable systems that bridge regulation and innovation. I've developed national audit methodologies, automated vulnerability reporting, and implemented RPA for streamlined project management.
                 </p>
+                <p className="mb-6">
+                  I'm also actively developing cybersecurity assessment tools, including <span className="text-primary font-semibold">CyberGauge</span> — a platform that enables organisations to quickly evaluate their cybersecurity posture and identify priority improvements.
+                </p>
                 <p>
                   As a <span className="text-primary font-semibold">certified cybersecurity expert</span>, I bring deep technical insight, strategic leadership, and execution strength to every engagement.
                 </p>
@@ -413,8 +457,76 @@ const Index = () => {
         </div>
       </section>
 
+      {/* CyberGauge Feature Section */}
+      <section id="cybergauge" className="py-24 px-4 bg-muted/20" aria-labelledby="cybergauge-heading">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-16">
+            <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 text-sm px-4 py-1">
+              PLATFORM
+            </Badge>
+            <h2 id="cybergauge-heading" className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              CyberGauge
+            </h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Cybersecurity Posture Assessment Platform
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            {/* Left: Description */}
+            <div className="space-y-6">
+              <p className="text-lg text-muted-foreground leading-relaxed">
+                CyberGauge helps organisations quickly assess their cybersecurity posture and identify priority improvements. The assessment takes approximately <span className="text-primary font-semibold">10 minutes</span> and evaluates six critical domains:
+              </p>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {cyberGaugeAreas.map((area) => (
+                  <div 
+                    key={area.label}
+                    className="flex items-center gap-2 p-3 rounded-xl bg-card border border-primary/10 hover:border-primary/30 transition-all duration-200"
+                  >
+                    <area.icon className="h-5 w-5 text-primary flex-shrink-0" />
+                    <span className="text-sm font-medium text-foreground">{area.label}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="pt-4">
+                <Button 
+                  size="lg"
+                  className="bg-gradient-primary text-white hover:shadow-glow transition-all duration-300 transform hover:scale-105 group text-lg px-8"
+                  onClick={() => window.open('https://cybergauge.chesterseptember.co.za', '_blank', 'noopener,noreferrer')}
+                >
+                  <Gauge className="mr-2 h-5 w-5" />
+                  Start Your Assessment
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </div>
+            </div>
+
+            {/* Right: Visual Card */}
+            <Card className="overflow-hidden border-primary/10 shadow-elegant hover:shadow-glow transition-all duration-500 bg-gradient-to-br from-primary/5 to-primary/[0.02]">
+              <div className="p-10 text-center space-y-6">
+                <div className="inline-flex p-6 bg-gradient-to-br from-primary to-primary-glow rounded-3xl shadow-lg">
+                  <Gauge className="h-16 w-16 text-white" />
+                </div>
+                <h3 className="text-2xl font-bold text-foreground">Know Where You Stand</h3>
+                <p className="text-muted-foreground leading-relaxed max-w-sm mx-auto">
+                  Get a clear, actionable view of your organisation's cybersecurity strengths and gaps — no lengthy engagements required.
+                </p>
+                <div className="flex flex-wrap justify-center gap-2 pt-2">
+                  {["Quick", "Actionable", "Comprehensive"].map((tag) => (
+                    <Badge key={tag} variant="secondary" className="bg-primary/10 text-primary border-primary/20">
+                      {tag}
+                    </Badge>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* Services Section */}
-      <section className="py-24 px-4 bg-muted/20">
+      <section id="services" className="py-24 px-4">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-5xl font-bold text-center mb-20 text-foreground">Services</h2>
           <div className="space-y-16">
@@ -449,19 +561,30 @@ const Index = () => {
         </div>
       </section>
 
-      {/* Special Projects Section */}
-      <section className="py-24 px-4">
+      {/* Tools & Projects Section */}
+      <section id="projects" className="py-24 px-4 bg-muted/20">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-center mb-20 text-foreground">Special Projects</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-center mb-20 text-foreground">Tools & Projects</h2>
           <div className="grid md:grid-cols-2 gap-10">
             {projects.map((project, index) => (
-              <Card key={index} className="group p-8 hover:shadow-elegant transition-all duration-500 transform hover:scale-105 animate-slide-up bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/30">
+              <Card 
+                key={index} 
+                className={`group p-8 hover:shadow-elegant transition-all duration-500 transform hover:scale-105 animate-slide-up bg-card/50 backdrop-blur-sm border-primary/10 hover:border-primary/30 ${project.link ? 'cursor-pointer' : ''}`}
+                onClick={() => project.link && window.open(project.link, '_blank', 'noopener,noreferrer')}
+              >
                 <CardHeader>
                   <div className="flex items-center gap-4 mb-6">
                     <div className={`p-4 bg-gradient-to-br ${project.gradient} rounded-2xl shadow-lg group-hover:shadow-glow transition-all duration-300`}>
                       <project.icon className="h-8 w-8 text-white" />
                     </div>
-                    <CardTitle className="text-xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
+                    <div>
+                      <CardTitle className="text-xl group-hover:text-primary transition-colors">{project.title}</CardTitle>
+                      {project.link && (
+                        <span className="text-xs text-primary flex items-center gap-1 mt-1">
+                          <ExternalLink className="h-3 w-3" /> Live Platform
+                        </span>
+                      )}
+                    </div>
                   </div>
                 </CardHeader>
                 <CardContent>
@@ -476,7 +599,7 @@ const Index = () => {
       </section>
 
       {/* Digital Products Section */}
-      <section className="py-24 px-4 bg-muted/20" aria-labelledby="products-heading">
+      <section id="products" className="py-24 px-4" aria-labelledby="products-heading">
         <div className="max-w-6xl mx-auto">
           <h2 id="products-heading" className="text-4xl md:text-5xl font-bold text-center mb-6 text-foreground">Digital Products</h2>
           <p className="text-xl text-center text-muted-foreground mb-16 max-w-3xl mx-auto">
@@ -682,9 +805,9 @@ const Index = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 border-t border-primary/10 bg-card/30">
+      <footer className="py-12 px-4 border-t border-border/50 bg-card/30">
         <div className="max-w-6xl mx-auto text-center">
-          <p className="text-muted-foreground text-lg">&copy; 2024 Chester September. All rights reserved.</p>
+          <p className="text-muted-foreground text-lg">&copy; {new Date().getFullYear()} Chester September. All rights reserved.</p>
           <p className="text-muted-foreground/70 text-sm mt-2">Cybersecurity Expert • Innovation Leader • Digital Transformation Specialist</p>
         </div>
       </footer>
